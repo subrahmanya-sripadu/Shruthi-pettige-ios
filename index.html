@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang='en' data-theme=''>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1, viewport-fit=cover'>
+<meta name='theme-color' content='#c8860a'>
+<title>Shruti Box + Raga Lab</title>
+<style>
+:root{--bg:#1a1208;--surf:#241a0e;--surf2:#2e2212;--bdr:#5a3e1e;--tx:#f5e6c8;--txm:#c4a46a;--pri:#c8860a;--pris:#3d2800;--gold:#ffd766;--acc:#e05c1a;--r:18px;--rf:999px;--sh:0 8px 32px rgba(0,0,0,.55);--fn:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;--grd:linear-gradient(135deg,#c8860a,#e05c1a)}
+[data-theme=forest]{--bg:#0d1f0f;--surf:#142616;--surf2:#1c3320;--bdr:#2e6b35;--tx:#d4f5d8;--txm:#7ec484;--pri:#3a9e47;--pris:#0d2e12;--gold:#aaee77;--acc:#1db954;--grd:linear-gradient(135deg,#3a9e47,#1db954)}
+[data-theme=ocean]{--bg:#071929;--surf:#0c2238;--surf2:#112d48;--bdr:#1a5080;--tx:#cde8ff;--txm:#6aafdd;--pri:#1a7bbf;--pris:#051826;--gold:#66d4ff;--acc:#0ea5e9;--grd:linear-gradient(135deg,#1a7bbf,#0ea5e9)}
+[data-theme=rose]{--bg:#1f0a12;--surf:#2a1020;--surf2:#38162c;--bdr:#7a2550;--tx:#ffe4f0;--txm:#e07aaa;--pri:#c0285a;--pris:#2a0818;--gold:#ff9ed2;--acc:#e83e8c;--grd:linear-gradient(135deg,#c0285a,#e83e8c)}
+[data-theme=slate]{--bg:#0f1218;--surf:#181c24;--surf2:#20262e;--bdr:#3a4458;--tx:#e2e8f4;--txm:#8899bb;--pri:#4a6fa5;--pris:#0d1525;--gold:#a8c4ff;--acc:#6690d8;--grd:linear-gradient(135deg,#4a6fa5,#6690d8)}
+[data-theme=light]{--bg:#f5f0e8;--surf:#fffdf8;--surf2:#ede8dc;--bdr:#c8b898;--tx:#2a2018;--txm:#6a5840;--pri:#8b5e18;--pris:#f5e8d0;--gold:#c8860a;--acc:#d4700a;--grd:linear-gradient(135deg,#8b5e18,#d4700a)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font-family:var(--fn)}button,input,select{font:inherit}button{cursor:pointer;border:none;-webkit-tap-highlight-color:transparent}
+.app{max-width:1040px;margin:0 auto;padding:14px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px;padding:10px 16px;background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);box-shadow:var(--sh)}
+.title h1{font-size:1.3rem;margin:0;background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}.title p{font-size:.78rem;color:var(--txm);margin:2px 0 0}
+.topright{display:flex;gap:8px;align-items:center}
+.icon-btn{min-width:38px;min-height:38px;border-radius:var(--rf);background:var(--surf2);border:1px solid var(--bdr);color:var(--tx);font-size:1rem;display:flex;align-items:center;justify-content:center}
+.theme-row{display:flex;gap:6px;align-items:center}
+.tdot{width:24px;height:24px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:transform .15s,border-color .15s}
+.tdot.on{border-color:var(--gold);transform:scale(1.28)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.panel{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;box-shadow:var(--sh)}
+.ph{font-size:1rem;font-weight:800;margin:0 0 4px;background:var(--grd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ps{font-size:.78rem;color:var(--txm);margin:0 0 10px;line-height:1.5}
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.label{font-size:.71rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--txm)}
+.badge{padding:2px 10px;border-radius:var(--rf);background:var(--surf2);border:1px solid var(--bdr);font-size:.75rem;font-weight:700;color:var(--gold)}
+input[type=range]{width:100%;accent-color:var(--pri);min-height:28px;margin:2px 0 8px}
+.seg{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.seg button{padding:6px 12px;border-radius:var(--rf);background:var(--surf2);border:1px solid var(--bdr);font-size:.78rem;min-height:34px;color:var(--tx);transition:all .14s}
+.seg button.on{background:var(--grd);border-color:transparent;color:#fff;box-shadow:0 2px 10px rgba(0,0,0,.4)}
+.transport{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.btnp{min-height:46px;border-radius:16px;font-weight:800;font-size:.88rem;background:var(--grd);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.4);transition:transform .1s,box-shadow .1s;letter-spacing:.02em}
+.btnp:active{transform:scale(.95);box-shadow:0 1px 5px rgba(0,0,0,.3)}
+.btns{min-height:46px;border-radius:16px;font-weight:700;font-size:.84rem;background:var(--surf2);border:1px solid var(--bdr);color:var(--tx);transition:all .14s}
+.btns:active{transform:scale(.95)}
+.helper{font-size:.73rem;color:var(--txm);line-height:1.5;margin-top:4px;min-height:26px}
+.pitch-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+.pk{padding:9px 7px;border-radius:14px;background:var(--surf2);border:1px solid var(--bdr);text-align:left;transition:all .14s;cursor:pointer}
+.pk:active{transform:scale(.93)}
+.pk .sw{display:block;font-weight:800;font-size:.85rem}
+.pk .nt{display:block;color:var(--txm);font-size:.68rem}
+.pk.on{background:var(--pris);border-color:var(--gold);box-shadow:0 0 12px rgba(200,134,10,.22)}
+select{width:100%;min-height:42px;border-radius:14px;padding:0 12px;background:var(--surf2);border:1px solid var(--bdr);color:var(--tx);font-size:.88rem}
+.boxes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.box{padding:9px;border-radius:14px;background:var(--surf2);border:1px solid var(--bdr)}
+.boxv{font-size:.8rem;font-weight:700;line-height:1.8;margin-top:4px;color:var(--gold)}
+.piano{display:flex;height:84px;border-radius:14px;overflow:hidden;border:1px solid var(--bdr);margin-top:8px;touch-action:manipulation;box-shadow:inset 0 2px 8px rgba(0,0,0,.4)}
+.key{flex:1;background:linear-gradient(180deg,#faf8f3 75%,#e0d8c8);border-right:1px solid #ccc;display:flex;align-items:flex-end;justify-content:center;padding-bottom:3px;font-size:8px;color:#999;transition:background .07s;cursor:pointer;min-width:0}
+.key:active{background:linear-gradient(180deg,#ddd 75%,#ccc) !important}
+.key.lit{background:linear-gradient(180deg,var(--pri) 65%,var(--acc)) !important;color:#fff}
+.key.sa{background:linear-gradient(180deg,var(--gold) 65%,var(--pri)) !important;color:#111;font-weight:700}
+.mic{margin-top:12px;padding:12px;border-radius:16px;background:var(--surf2);border:1px solid var(--bdr)}
+.micout{font-size:.76rem;color:var(--txm);line-height:1.65;min-height:68px;margin-top:6px;white-space:pre-wrap}
+.level-bar{height:5px;border-radius:3px;background:var(--bdr);margin:6px 0;overflow:hidden}
+.level-fill{height:100%;background:var(--grd);border-radius:3px;transition:width .1s;width:0%}
+.tanpura-status{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.pulse{width:9px;height:9px;border-radius:50%;background:#555;flex-shrink:0}
+.pulse.on{background:var(--gold);box-shadow:0 0 8px var(--gold);animation:pulseAnim 1.1s ease-in-out infinite}
+@keyframes pulseAnim{0%,100%{opacity:1}50%{opacity:.35}}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+@media(max-width:520px){.app{padding:8px}.pitch-grid{grid-template-columns:repeat(3,1fr)}.transport{grid-template-columns:1fr}.panel{padding:12px}.title h1{font-size:1.05rem}.theme-row{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="topbar">
+  <div class="title"><h1>&#127895; Shruti Box + Raga Lab</h1><p>72 Melakarta ragas &#8226; Real tanpura &#8226; iOS &amp; Android ready</p></div>
+  <div class="topright">
+    <div class="theme-row">
+      <div class="tdot on" style="background:linear-gradient(135deg,#c8860a,#e05c1a)" data-theme="default" title="Tanpura Gold"></div>
+      <div class="tdot" style="background:linear-gradient(135deg,#3a9e47,#1db954)" data-theme="forest" title="Forest"></div>
+      <div class="tdot" style="background:linear-gradient(135deg,#1a7bbf,#0ea5e9)" data-theme="ocean" title="Ocean"></div>
+      <div class="tdot" style="background:linear-gradient(135deg,#c0285a,#e83e8c)" data-theme="rose" title="Rose"></div>
+      <div class="tdot" style="background:linear-gradient(135deg,#4a6fa5,#6690d8)" data-theme="slate" title="Slate"></div>
+      <div class="tdot" style="background:linear-gradient(135deg,#8b5e18,#d4700a)" data-theme="light" title="Light"></div>
+    </div>
+    <button class="icon-btn" id="themeBtn" title="Cycle theme">&#127773;</button>
+  </div>
+</div>
+<div class="grid">
+<section class="panel">
+  <div class="ph">&#127928; Shruti / Tanpura</div>
+  <div class="ps">Real tanpura recording with authentic jvari overtones. Tap Start once to unlock audio on iOS/Android.</div>
+  <div class="tanpura-status"><div class="pulse" id="pulse"></div><span class="label" id="droneLabel">Drone off</span></div>
+  <div class="row"><span class="label">Tonic</span><span class="badge" id="pitchLabel">C - Sa</span><span class="badge" id="pitchHz">261.63 Hz</span></div>
+  <div class="row"><span class="label">Volume</span><span class="badge" id="volB">70%</span></div>
+  <input type="range" id="volume" min="0" max="100" value="70">
+  <div class="row"><span class="label">Fine tune</span><span class="badge" id="tuneB">0c</span></div>
+  <input type="range" id="fineTune" min="-50" max="50" value="0">
+  <div class="row"><span class="label">Tempo</span><span class="badge" id="tempoB">72 bpm</span></div>
+  <input type="range" id="tempo" min="40" max="160" value="72">
+  <div class="label" style="margin-bottom:4px">Secondary note</div><div class="seg" id="secSeg"></div>
+  <div class="label" style="margin-bottom:4px">Tertiary note</div><div class="seg" id="terSeg"></div>
+  <div class="transport">
+    <button class="btnp" id="startBtn">&#9654; Start</button>
+    <button class="btns" id="stopBtn">&#9646;&#9646; Stop</button>
+    <button class="btns" id="resetBtn">&#8635; Reset</button>
+  </div>
+  <div class="helper" id="helper">Tap Start to unlock audio on iOS/Android.</div>
+  <div class="pitch-grid" id="pitchGrid"></div>
+</section>
+<section class="panel">
+  <div class="ph">&#127900; Raga Practice</div>
+  <div class="ps">All 72 Melakarta ragas with smooth gapless playback. Live mic raga identifier.</div>
+  <select id="ragaSelect"></select>
+  <div class="boxes">
+    <div class="box"><div class="label">Arohanam</div><div class="boxv" id="ragaAro"></div></div>
+    <div class="box"><div class="label">Avarohanam</div><div class="boxv" id="ragaAva"></div></div>
+  </div>
+  <div class="label" style="margin-bottom:4px">Practice mode</div><div class="seg" id="modeSeg"></div>
+  <div class="label" style="margin-bottom:4px">Instrument</div><div class="seg" id="instrSeg"></div>
+  <div class="transport">
+    <button class="btnp" id="playAro">&#8593; Arohanam</button>
+    <button class="btns" id="playAva">&#8595; Avarohanam</button>
+    <button class="btns" id="stopRaga">&#9646;&#9646; Stop</button>
+  </div>
+  <div class="label" style="margin-top:4px">Piano (tap keys)</div>
+  <div class="piano" id="piano"></div>
+  <div class="mic">
+    <div class="label">&#127908; Live Raga Identifier</div>
+    <div class="level-bar"><div class="level-fill" id="levelFill"></div></div>
+    <div class="seg" style="margin-top:6px;margin-bottom:0">
+      <button class="btnp" id="micStart" style="border-radius:999px;min-height:36px;padding:0 16px;font-size:.8rem">&#127908; Start mic</button>
+      <button class="btns" id="micStop" style="border-radius:999px;min-height:36px;padding:0 16px;font-size:.8rem">Stop mic</button>
+    </div>
+    <div class="micout" id="micOut">Tap Start mic and sing a swara steadily for 3-4 seconds. Requires HTTPS.</div>
+  </div>
+</section>
+</div>
+</div>
+<script>
+(function(){
+var RAGAS=[{"name": "Kanakangi", "num": 1, "aro": "S R1 G1 M1 P D1 N1 S", "ava": "S N1 D1 P M1 G1 R1 S", "keys": [0, 1, 2, 5, 7, 8, 9]}, {"name": "Ratnangi", "num": 2, "aro": "S R1 G1 M1 P D1 N2 S", "ava": "S N2 D1 P M1 G1 R1 S", "keys": [0, 1, 2, 5, 7, 8, 10]}, {"name": "Ganamurti", "num": 3, "aro": "S R1 G1 M1 P D1 N3 S", "ava": "S N3 D1 P M1 G1 R1 S", "keys": [0, 1, 2, 5, 7, 8, 11]}, {"name": "Vanaspati", "num": 4, "aro": "S R1 G1 M1 P D2 N2 S", "ava": "S N2 D2 P M1 G1 R1 S", "keys": [0, 1, 2, 5, 7, 9, 10]}, {"name": "Manavati", "num": 5, "aro": "S R1 G1 M1 P D2 N3 S", "ava": "S N3 D2 P M1 G1 R1 S", "keys": [0, 1, 2, 5, 7, 9, 11]}, {"name": "Tanarupi", "num": 6, "aro": "S R1 G1 M1 P D3 N3 S", "ava": "S N3 D3 P M1 G1 R1 S", "keys": [0, 1, 2, 5, 7, 10, 11]}, {"name": "Senavati", "num": 7, "aro": "S R1 G2 M1 P D1 N1 S", "ava": "S N1 D1 P M1 G2 R1 S", "keys": [0, 1, 3, 5, 7, 8, 9]}, {"name": "Hanumatodi", "num": 8, "aro": "S R1 G2 M1 P D1 N2 S", "ava": "S N2 D1 P M1 G2 R1 S", "keys": [0, 1, 3, 5, 7, 8, 10]}, {"name": "Dhenuka", "num": 9, "aro": "S R1 G2 M1 P D1 N3 S", "ava": "S N3 D1 P M1 G2 R1 S", "keys": [0, 1, 3, 5, 7, 8, 11]}, {"name": "Natakapriya", "num": 10, "aro": "S R1 G2 M1 P D2 N2 S", "ava": "S N2 D2 P M1 G2 R1 S", "keys": [0, 1, 3, 5, 7, 9, 10]}, {"name": "Kokilapriya", "num": 11, "aro": "S R1 G2 M1 P D2 N3 S", "ava": "S N3 D2 P M1 G2 R1 S", "keys": [0, 1, 3, 5, 7, 9, 11]}, {"name": "Rupavati", "num": 12, "aro": "S R1 G2 M1 P D3 N3 S", "ava": "S N3 D3 P M1 G2 R1 S", "keys": [0, 1, 3, 5, 7, 10, 11]}, {"name": "Gayakapriya", "num": 13, "aro": "S R1 G3 M1 P D1 N1 S", "ava": "S N1 D1 P M1 G3 R1 S", "keys": [0, 1, 4, 5, 7, 8, 9]}, {"name": "Vakulabharanam", "num": 14, "aro": "S R1 G3 M1 P D1 N2 S", "ava": "S N2 D1 P M1 G3 R1 S", "keys": [0, 1, 4, 5, 7, 8, 10]}, {"name": "Mayamalavagowla", "num": 15, "aro": "S R1 G3 M1 P D1 N3 S", "ava": "S N3 D1 P M1 G3 R1 S", "keys": [0, 1, 4, 5, 7, 8, 11]}, {"name": "Chakravakam", "num": 16, "aro": "S R1 G3 M1 P D2 N2 S", "ava": "S N2 D2 P M1 G3 R1 S", "keys": [0, 1, 4, 5, 7, 9, 10]}, {"name": "Suryakantam", "num": 17, "aro": "S R1 G3 M1 P D2 N3 S", "ava": "S N3 D2 P M1 G3 R1 S", "keys": [0, 1, 4, 5, 7, 9, 11]}, {"name": "Hatakambari", "num": 18, "aro": "S R1 G3 M1 P D3 N3 S", "ava": "S N3 D3 P M1 G3 R1 S", "keys": [0, 1, 4, 5, 7, 10, 11]}, {"name": "Jhankaradhwani", "num": 19, "aro": "S R2 G2 M1 P D1 N1 S", "ava": "S N1 D1 P M1 G2 R2 S", "keys": [0, 2, 3, 5, 7, 8, 9]}, {"name": "Natabhairavi", "num": 20, "aro": "S R2 G2 M1 P D1 N2 S", "ava": "S N2 D1 P M1 G2 R2 S", "keys": [0, 2, 3, 5, 7, 8, 10]}, {"name": "Keeravani", "num": 21, "aro": "S R2 G2 M1 P D1 N3 S", "ava": "S N3 D1 P M1 G2 R2 S", "keys": [0, 2, 3, 5, 7, 8, 11]}, {"name": "Kharaharapriya", "num": 22, "aro": "S R2 G2 M1 P D2 N2 S", "ava": "S N2 D2 P M1 G2 R2 S", "keys": [0, 2, 3, 5, 7, 9, 10]}, {"name": "Gourimanohari", "num": 23, "aro": "S R2 G2 M1 P D2 N3 S", "ava": "S N3 D2 P M1 G2 R2 S", "keys": [0, 2, 3, 5, 7, 9, 11]}, {"name": "Varunapriya", "num": 24, "aro": "S R2 G2 M1 P D3 N3 S", "ava": "S N3 D3 P M1 G2 R2 S", "keys": [0, 2, 3, 5, 7, 10, 11]}, {"name": "Mararanjani", "num": 25, "aro": "S R2 G3 M1 P D1 N1 S", "ava": "S N1 D1 P M1 G3 R2 S", "keys": [0, 2, 4, 5, 7, 8, 9]}, {"name": "Charukesi", "num": 26, "aro": "S R2 G3 M1 P D1 N2 S", "ava": "S N2 D1 P M1 G3 R2 S", "keys": [0, 2, 4, 5, 7, 8, 10]}, {"name": "Sarasangi", "num": 27, "aro": "S R2 G3 M1 P D1 N3 S", "ava": "S N3 D1 P M1 G3 R2 S", "keys": [0, 2, 4, 5, 7, 8, 11]}, {"name": "HarikAmbhoji", "num": 28, "aro": "S R2 G3 M1 P D2 N2 S", "ava": "S N2 D2 P M1 G3 R2 S", "keys": [0, 2, 4, 5, 7, 9, 10]}, {"name": "Dheerashankarabharanam", "num": 29, "aro": "S R2 G3 M1 P D2 N3 S", "ava": "S N3 D2 P M1 G3 R2 S", "keys": [0, 2, 4, 5, 7, 9, 11]}, {"name": "Naganandini", "num": 30, "aro": "S R2 G3 M1 P D3 N3 S", "ava": "S N3 D3 P M1 G3 R2 S", "keys": [0, 2, 4, 5, 7, 10, 11]}, {"name": "Yagapriya", "num": 31, "aro": "S R3 G3 M1 P D1 N1 S", "ava": "S N1 D1 P M1 G3 R3 S", "keys": [0, 3, 4, 5, 7, 8, 9]}, {"name": "Ragavardhini", "num": 32, "aro": "S R3 G3 M1 P D1 N2 S", "ava": "S N2 D1 P M1 G3 R3 S", "keys": [0, 3, 4, 5, 7, 8, 10]}, {"name": "Gangeyabhushani", "num": 33, "aro": "S R3 G3 M1 P D1 N3 S", "ava": "S N3 D1 P M1 G3 R3 S", "keys": [0, 3, 4, 5, 7, 8, 11]}, {"name": "Vagadheeswari", "num": 34, "aro": "S R3 G3 M1 P D2 N2 S", "ava": "S N2 D2 P M1 G3 R3 S", "keys": [0, 3, 4, 5, 7, 9, 10]}, {"name": "Shulini", "num": 35, "aro": "S R3 G3 M1 P D2 N3 S", "ava": "S N3 D2 P M1 G3 R3 S", "keys": [0, 3, 4, 5, 7, 9, 11]}, {"name": "Chalanata", "num": 36, "aro": "S R3 G3 M1 P D3 N3 S", "ava": "S N3 D3 P M1 G3 R3 S", "keys": [0, 3, 4, 5, 7, 10, 11]}, {"name": "Salagam", "num": 37, "aro": "S R1 G1 M2 P D1 N1 S", "ava": "S N1 D1 P M2 G1 R1 S", "keys": [0, 1, 2, 6, 7, 8, 9]}, {"name": "Jalarnavam", "num": 38, "aro": "S R1 G1 M2 P D1 N2 S", "ava": "S N2 D1 P M2 G1 R1 S", "keys": [0, 1, 2, 6, 7, 8, 10]}, {"name": "Jhalavarali", "num": 39, "aro": "S R1 G1 M2 P D1 N3 S", "ava": "S N3 D1 P M2 G1 R1 S", "keys": [0, 1, 2, 6, 7, 8, 11]}, {"name": "Navaneetam", "num": 40, "aro": "S R1 G1 M2 P D2 N2 S", "ava": "S N2 D2 P M2 G1 R1 S", "keys": [0, 1, 2, 6, 7, 9, 10]}, {"name": "Pavani", "num": 41, "aro": "S R1 G1 M2 P D2 N3 S", "ava": "S N3 D2 P M2 G1 R1 S", "keys": [0, 1, 2, 6, 7, 9, 11]}, {"name": "Raghupriya", "num": 42, "aro": "S R1 G1 M2 P D3 N3 S", "ava": "S N3 D3 P M2 G1 R1 S", "keys": [0, 1, 2, 6, 7, 10, 11]}, {"name": "Gavambodhi", "num": 43, "aro": "S R1 G2 M2 P D1 N1 S", "ava": "S N1 D1 P M2 G2 R1 S", "keys": [0, 1, 3, 6, 7, 8, 9]}, {"name": "Bhavapriya", "num": 44, "aro": "S R1 G2 M2 P D1 N2 S", "ava": "S N2 D1 P M2 G2 R1 S", "keys": [0, 1, 3, 6, 7, 8, 10]}, {"name": "Shubhapantuvarali", "num": 45, "aro": "S R1 G2 M2 P D1 N3 S", "ava": "S N3 D1 P M2 G2 R1 S", "keys": [0, 1, 3, 6, 7, 8, 11]}, {"name": "Shadvidhamargini", "num": 46, "aro": "S R1 G2 M2 P D2 N2 S", "ava": "S N2 D2 P M2 G2 R1 S", "keys": [0, 1, 3, 6, 7, 9, 10]}, {"name": "Suvarnangi", "num": 47, "aro": "S R1 G2 M2 P D2 N3 S", "ava": "S N3 D2 P M2 G2 R1 S", "keys": [0, 1, 3, 6, 7, 9, 11]}, {"name": "Divyamani", "num": 48, "aro": "S R1 G2 M2 P D3 N3 S", "ava": "S N3 D3 P M2 G2 R1 S", "keys": [0, 1, 3, 6, 7, 10, 11]}, {"name": "Dhavalambari", "num": 49, "aro": "S R1 G3 M2 P D1 N1 S", "ava": "S N1 D1 P M2 G3 R1 S", "keys": [0, 1, 4, 6, 7, 8, 9]}, {"name": "Namanarayani", "num": 50, "aro": "S R1 G3 M2 P D1 N2 S", "ava": "S N2 D1 P M2 G3 R1 S", "keys": [0, 1, 4, 6, 7, 8, 10]}, {"name": "Kamavardhini", "num": 51, "aro": "S R1 G3 M2 P D1 N3 S", "ava": "S N3 D1 P M2 G3 R1 S", "keys": [0, 1, 4, 6, 7, 8, 11]}, {"name": "Ramapriya", "num": 52, "aro": "S R1 G3 M2 P D2 N2 S", "ava": "S N2 D2 P M2 G3 R1 S", "keys": [0, 1, 4, 6, 7, 9, 10]}, {"name": "Gamanashrama", "num": 53, "aro": "S R1 G3 M2 P D2 N3 S", "ava": "S N3 D2 P M2 G3 R1 S", "keys": [0, 1, 4, 6, 7, 9, 11]}, {"name": "Vishwambhari", "num": 54, "aro": "S R1 G3 M2 P D3 N3 S", "ava": "S N3 D3 P M2 G3 R1 S", "keys": [0, 1, 4, 6, 7, 10, 11]}, {"name": "Syamalangi", "num": 55, "aro": "S R2 G2 M2 P D1 N1 S", "ava": "S N1 D1 P M2 G2 R2 S", "keys": [0, 2, 3, 6, 7, 8, 9]}, {"name": "Shanmukhapriya", "num": 56, "aro": "S R2 G2 M2 P D1 N2 S", "ava": "S N2 D1 P M2 G2 R2 S", "keys": [0, 2, 3, 6, 7, 8, 10]}, {"name": "Simhendramadhyamam", "num": 57, "aro": "S R2 G2 M2 P D1 N3 S", "ava": "S N3 D1 P M2 G2 R2 S", "keys": [0, 2, 3, 6, 7, 8, 11]}, {"name": "Hemavati", "num": 58, "aro": "S R2 G2 M2 P D2 N2 S", "ava": "S N2 D2 P M2 G2 R2 S", "keys": [0, 2, 3, 6, 7, 9, 10]}, {"name": "Dharmavati", "num": 59, "aro": "S R2 G2 M2 P D2 N3 S", "ava": "S N3 D2 P M2 G2 R2 S", "keys": [0, 2, 3, 6, 7, 9, 11]}, {"name": "Neetimati", "num": 60, "aro": "S R2 G2 M2 P D3 N3 S", "ava": "S N3 D3 P M2 G2 R2 S", "keys": [0, 2, 3, 6, 7, 10, 11]}, {"name": "Kantamani", "num": 61, "aro": "S R2 G3 M2 P D1 N1 S", "ava": "S N1 D1 P M2 G3 R2 S", "keys": [0, 2, 4, 6, 7, 8, 9]}, {"name": "Rishabhapriya", "num": 62, "aro": "S R2 G3 M2 P D1 N2 S", "ava": "S N2 D1 P M2 G3 R2 S", "keys": [0, 2, 4, 6, 7, 8, 10]}, {"name": "Latangi", "num": 63, "aro": "S R2 G3 M2 P D1 N3 S", "ava": "S N3 D1 P M2 G3 R2 S", "keys": [0, 2, 4, 6, 7, 8, 11]}, {"name": "Vachaspati", "num": 64, "aro": "S R2 G3 M2 P D2 N2 S", "ava": "S N2 D2 P M2 G3 R2 S", "keys": [0, 2, 4, 6, 7, 9, 10]}, {"name": "Mechakalyani", "num": 65, "aro": "S R2 G3 M2 P D2 N3 S", "ava": "S N3 D2 P M2 G3 R2 S", "keys": [0, 2, 4, 6, 7, 9, 11]}, {"name": "Chitrambari", "num": 66, "aro": "S R2 G3 M2 P D3 N3 S", "ava": "S N3 D3 P M2 G3 R2 S", "keys": [0, 2, 4, 6, 7, 10, 11]}, {"name": "Sucharitra", "num": 67, "aro": "S R3 G3 M2 P D1 N1 S", "ava": "S N1 D1 P M2 G3 R3 S", "keys": [0, 3, 4, 6, 7, 8, 9]}, {"name": "Jyotiswarupini", "num": 68, "aro": "S R3 G3 M2 P D1 N2 S", "ava": "S N2 D1 P M2 G3 R3 S", "keys": [0, 3, 4, 6, 7, 8, 10]}, {"name": "Dhatuvardani", "num": 69, "aro": "S R3 G3 M2 P D1 N3 S", "ava": "S N3 D1 P M2 G3 R3 S", "keys": [0, 3, 4, 6, 7, 8, 11]}, {"name": "Nasikabhushani", "num": 70, "aro": "S R3 G3 M2 P D2 N2 S", "ava": "S N2 D2 P M2 G3 R3 S", "keys": [0, 3, 4, 6, 7, 9, 10]}, {"name": "Kosalam", "num": 71, "aro": "S R3 G3 M2 P D2 N3 S", "ava": "S N3 D2 P M2 G3 R3 S", "keys": [0, 3, 4, 6, 7, 9, 11]}, {"name": "Rasikapriya", "num": 72, "aro": "S R3 G3 M2 P D3 N3 S", "ava": "S N3 D3 P M2 G3 R3 S", "keys": [0, 3, 4, 6, 7, 10, 11]}];
+var SW={S:1,R1:16/15,R2:9/8,R3:6/5,G1:1.2*15/16,G2:6/5,G3:5/4,M1:4/3,M2:45/32,P:3/2,D1:8/5,D2:5/3,D3:9/5,N1:16/9,N2:9/5,N3:15/8};
+var PITCHES=[{note:'C',swara:'Sa',freq:261.63},{note:'C#',swara:'Komal Re',freq:277.18},{note:'D',swara:'Re',freq:293.66},{note:'D#',swara:'Komal Ga',freq:311.13},{note:'E',swara:'Ga',freq:329.63},{note:'F',swara:'Ma',freq:349.23},{note:'F#',swara:'Tivra Ma',freq:369.99},{note:'G',swara:'Pa',freq:392},{note:'G#',swara:'Komal Dha',freq:415.30},{note:'A',swara:'Dha',freq:440},{note:'A#',swara:'Komal Ni',freq:466.16},{note:'B',swara:'Ni',freq:493.88}];
+var THEMES=['default','forest','ocean','rose','slate','light'];
+var S={tonic:0,vol:70,tune:0,tempo:72,sec:'pa',ter:'off',mode:'hum',instr:'tanpura',raga:0,drone:false,_droneWasOn:false,themeIdx:0};
+var audioCtx,masterGain,pluckTimer=null,ragaTimer=null;
+var micCtx=null,micStream=null,analyser=null,micRAF=null,scriptNode=null,micBuf=null,lastGoodFreq=0,lastLevel=0,pitchTrail=[];
+var tanpuraBuf=null,tanpuraSrc=null,tanpuraGain=null;
+var TANPURA_B64='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qqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqTEH/8xjE6AAAA0gAAAAATUUzLjEwMKqqqqqqqqqqqqqqqqqqqqr/8xjE6AAAA0gAAAAAqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr/8xjE6AAAA0gAAAAAqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr/8xjE6AAAA0gAAAAAqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr/8xjE6AAAA0gAAAAAqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr/8xjE6AAAA0gAAAAAqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr/8xjE6AAAA0gAAAAAqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr/8xjE6AAAA0gAAAAAqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr/8xjE6AAAA0gAAAAAqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr/8xjE6AAAA0gAAAAAqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqr/8xjE6AAAA0gAAAAAqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqo=';
+
+function setText(id,t){var e=document.getElementById(id);if(e)e.textContent=t;}
+function bindUnlock(ctx){
+  ['touchstart','mousedown','pointerup','click'].forEach(function(ev){
+    document.addEventListener(ev,function(){if(ctx&&ctx.state!=='running')ctx.resume().catch(function(){});},{passive:true,capture:true});
+  });
+}
+function ensureAudio(){
+  if(!audioCtx){
+    audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    masterGain=audioCtx.createGain();
+    masterGain.gain.value=S.vol/100;
+    masterGain.connect(audioCtx.destination);
+    bindUnlock(audioCtx);
+    loadTanpura();
+  }
+  return audioCtx.resume();
+}
+function b64ToArrayBuffer(b64){
+  var bin=atob(b64),buf=new Uint8Array(bin.length);
+  for(var i=0;i<bin.length;i++)buf[i]=bin.charCodeAt(i);
+  return buf.buffer;
+}
+function loadTanpura(){
+  try{
+    audioCtx.decodeAudioData(b64ToArrayBuffer(TANPURA_B64),function(buf){tanpuraBuf=buf;if(S.drone)startTanpuraSample();},function(){tanpuraBuf=null;});
+  }catch(e){tanpuraBuf=null;}
+}
+function tonic(){return PITCHES[S.tonic].freq*Math.pow(2,S.tune/1200);}
+function secRatio(){return S.sec==='pa'?3/2:S.sec==='ma'?4/3:2;}
+function terRatio(){return{off:null,ga:5/4,ma:4/3,pa:3/2,ni:15/8,'sa-high':2}[S.ter]||null;}
+
+/* ── Real tanpura sample playback ── */
+function startTanpuraSample(){
+  stopTanpuraSample();
+  if(!tanpuraBuf||!audioCtx)return;
+  tanpuraGain=audioCtx.createGain();
+  tanpuraGain.gain.value=S.vol/100;
+  tanpuraGain.connect(audioCtx.destination);
+  tanpuraSrc=audioCtx.createBufferSource();
+  tanpuraSrc.buffer=tanpuraBuf;
+  tanpuraSrc.loop=true;
+  // pitch-shift to match chosen tonic
+  var basePitch=tanpuraBuf.sampleRate/audioCtx.sampleRate;
+  var targetRatio=tonic()/261.63;
+  tanpuraSrc.playbackRate.value=targetRatio;
+  tanpuraSrc.connect(tanpuraGain);
+  tanpuraSrc.start(0);
+}
+function stopTanpuraSample(){
+  if(tanpuraSrc){try{tanpuraSrc.stop();}catch(e){}tanpuraSrc=null;}
+  if(tanpuraGain){try{tanpuraGain.disconnect();}catch(e){}tanpuraGain=null;}
+}
+
+/* ── Synthesis pluck for instruments other than tanpura ── */
+function pluck(freq,gainAmt,when,dur){
+  var amps=[1,0.7,0.5,0.35,0.22,0.14,0.09,0.055,0.033,0.018,0.010,0.005];
+  amps.forEach(function(a,i){
+    var n=i+1;
+    var osc=audioCtx.createOscillator();
+    var g=audioCtx.createGain();
+    var f=audioCtx.createBiquadFilter();
+    var jawari=0.003;
+    var det=(n%2?1:-1)*freq*jawari*(n*0.3);
+    osc.type='sine';
+    osc.frequency.value=freq*n+det;
+    f.type='lowpass';
+    f.frequency.setValueAtTime(Math.min(5500,freq*14),when);
+    f.Q.value=0.9;
+    var pk=gainAmt*a;
+    g.gain.setValueAtTime(0.0001,when);
+    g.gain.exponentialRampToValueAtTime(Math.max(pk,0.0003),when+0.018);
+    g.gain.linearRampToValueAtTime(pk*0.7,when+dur*0.38);
+    g.gain.linearRampToValueAtTime(pk*0.18,when+dur*0.85);
+    g.gain.linearRampToValueAtTime(0.0001,when+dur);
+    osc.connect(f);f.connect(g);g.connect(masterGain);
+    osc.start(when);osc.stop(when+dur+0.05);
+  });
+}
+function synthCycle(){
+  var base=tonic();var notes=[base];
+  var tr=terRatio();if(tr)notes.push(base*tr);
+  notes.push(base*secRatio());notes.push(base*2);
+  var cycle=5.8*(76/S.tempo);
+  var pct=[0,0.20,0.42,0.70];
+  var now=audioCtx.currentTime+0.02;
+  notes.forEach(function(f,i){
+    var st=pct[i]*cycle;
+    var nextSt=(pct[i+1]||1)*cycle;
+    var dur=(nextSt-st)+cycle*0.22;
+    pluck(f,0.18/Math.sqrt(notes.length),now+st,dur);
+  });
+  return cycle*1000;
+}
+function startDrone(){
+  ensureAudio().then(function(){
+    S.drone=true;updateUI();
+    if(tanpuraBuf){startTanpuraSample();}
+    else{var ms=synthCycle();pluckTimer=setInterval(synthCycle,Math.max(1000,ms*0.88));}
+  });
+}
+function stopDrone(){
+  stopTanpuraSample();
+  clearInterval(pluckTimer);pluckTimer=null;
+  S.drone=false;updateUI();
+}
+
+/* ── Lead note (raga playback) with smooth crossfade ── */
+function leadNote(freq,dur,startTime){
+  var t=startTime||audioCtx.currentTime+0.01;
+  var a=audioCtx.createOscillator(),b=audioCtx.createOscillator();
+  var f=audioCtx.createBiquadFilter(),g=audioCtx.createGain();
+  var instr=S.mode==='hum'?'hum':S.instr;
+  a.frequency.value=freq;b.frequency.value=freq*1.003;
+  if(instr==='hum'){a.type='sine';b.type='triangle';f.type='bandpass';f.frequency.value=720;f.Q.value=3.2;}
+  else if(instr==='flute'){a.type='sine';b.type='sine';b.frequency.value=freq*2.001;f.type='lowpass';f.frequency.value=1800;f.Q.value=0.7;}
+  else if(instr==='veena'){a.type='triangle';b.type='sine';f.type='lowpass';f.frequency.value=2400;f.Q.value=1.3;}
+  else if(instr==='violin'){a.type='sawtooth';b.type='triangle';f.type='lowpass';f.frequency.value=1600;f.Q.value=1.0;}
+  else if(instr==='guitar'){a.type='triangle';b.type='square';b.gain&&(b.gain.value=0.3);f.type='lowpass';f.frequency.value=2000;f.Q.value=1.5;}
+  else if(instr==='sitar'){a.type='sawtooth';b.type='triangle';f.type='bandpass';f.frequency.value=1400;f.Q.value=2.0;}
+  else if(instr==='sarod'){a.type='sawtooth';b.type='sawtooth';f.type='lowpass';f.frequency.value=1200;f.Q.value=1.8;}
+  else if(instr==='harmonium'){a.type='sawtooth';b.type='square';f.type='bandpass';f.frequency.value=900;f.Q.value=0.9;}
+  else{a.type='triangle';b.type='triangle';f.type='bandpass';f.frequency.value=Math.min(freq*4,2000);f.Q.value=0.8;}
+  // smooth attack and release for gapless feel
+  var fadeIn=Math.min(0.04,dur*0.12);
+  var fadeOut=Math.min(0.06,dur*0.14);
+  g.gain.setValueAtTime(0.0001,t);
+  g.gain.exponentialRampToValueAtTime(0.10,t+fadeIn);
+  g.gain.linearRampToValueAtTime(0.085,t+dur-fadeOut);
+  g.gain.linearRampToValueAtTime(0.0001,t+dur);
+  a.connect(f);b.connect(f);f.connect(g);g.connect(masterGain);
+  a.start(t);b.start(t);a.stop(t+dur+0.02);b.stop(t+dur+0.02);
+}
+
+/* ── Raga playback — pre-schedule all notes for gapless smooth output ── */
+function playRaga(dir){
+  clearInterval(ragaTimer);ragaTimer=null;
+  if(!audioCtx)return;
+  var r=RAGAS[S.raga];
+  var tokens=(dir==='up'?r.aro:r.ava).split(/\s+/).filter(Boolean);
+  var stepSec=Math.max(0.55,3.2/S.tempo);
+  var overlap=stepSec*0.18; // notes overlap slightly for smooth legato
+  var now=audioCtx.currentTime+0.08;
+  tokens.forEach(function(tok,idx){
+    var ratio=SW[tok]||1;
+    var oct;
+    if(dir==='up'){oct=(tok==='S'&&idx===tokens.length-1)?2:1;}
+    else{oct=(tok==='S'&&idx===0)?2:1;}
+    var freq=tonic()*ratio*oct;
+    var dur=stepSec+overlap;
+    leadNote(freq,dur,now+idx*stepSec);
+  });
+}
+function stopRagaPlayback(){clearInterval(ragaTimer);ragaTimer=null;}
+
+/* ── iOS mic with separate AudioContext + 8x boost ── */
+function autoCorrelate(buf,sr){
+  var size=buf.length,rms=0;
+  for(var i=0;i<size;i++)rms+=buf[i]*buf[i];
+  rms=Math.sqrt(rms/size);if(rms<0.0003)return -1;
+  var r1=0,r2=size-1;
+  while(r1<size/2&&Math.abs(buf[r1])<0.01)r1++;
+  while(r2>size/2&&Math.abs(buf[r2])<0.01)r2--;
+  buf=buf.slice(r1,r2);size=buf.length;if(size<64)return -1;
+  var c=new Float32Array(size);
+  for(var i=0;i<size;i++)for(var j=0;j<size-i;j++)c[i]+=buf[j]*buf[j+i];
+  var d=0;while(d<size-1&&c[d]>c[d+1])d++;
+  var maxVal=-1,maxPos=-1;
+  for(var i=d;i<size;i++)if(c[i]>maxVal){maxVal=c[i];maxPos=i;}
+  if(maxPos<1||maxPos>size-2)return -1;
+  var T0=maxPos;
+  var x1=c[T0-1],x2=c[T0],x3=c[T0+1];
+  var aa=(x1+x3-2*x2)/2,bb=(x3-x1)/2;
+  if(aa)T0=T0-bb/(2*aa);
+  return sr/T0;
+}
+function matchRagas(trail){
+  if(!trail.length)return[];
+  var counts={};
+  trail.forEach(function(pc){counts[pc]=(counts[pc]||0)+1;});
+  return RAGAS.map(function(r){
+    var keys=r.keys||[];var hit=0,miss=0;
+    Object.keys(counts).forEach(function(k){
+      var pc=Number(k);
+      if(keys.indexOf(pc)>=0)hit+=counts[k];else miss+=counts[k]*0.5;
+    });
+    return{name:r.name,num:r.num,score:hit-miss};
+  }).sort(function(a,b){return b.score-a.score;}).slice(0,3);
+}
+function startMic(){
+  try{micCtx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){micCtx=audioCtx;}
+  micCtx.resume().then(function(){
+    navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false,channelCount:1}})
+    .then(function(stream){
+      micStream=stream;
+      S._droneWasOn=S.drone;
+      if(S.drone)stopDrone();
+      var src=micCtx.createMediaStreamSource(stream);
+      var micGain=micCtx.createGain();micGain.gain.value=10;
+      src.connect(micGain);
+      analyser=micCtx.createAnalyser();analyser.fftSize=8192;analyser.smoothingTimeConstant=0;analyser.minDecibels=-100;analyser.maxDecibels=0;
+      micGain.connect(analyser);
+      if(micCtx.createScriptProcessor){
+        scriptNode=micCtx.createScriptProcessor(8192,1,1);
+        micBuf=new Float32Array(8192);
+        scriptNode.onaudioprocess=function(ev){
+          var d=ev.inputBuffer.getChannelData(0);
+          for(var i=0;i<d.length&&i<micBuf.length;i++)micBuf[i]=d[i]*10;
+          var s=0;for(var i=0;i<d.length;i++)s+=d[i]*d[i];
+          lastLevel=Math.sqrt(s/d.length)*1000;
+        };
+        micGain.connect(scriptNode);scriptNode.connect(micCtx.destination);
+      }
+      pitchTrail=[];lastGoodFreq=0;
+      setText('micOut','Drone paused. Hold phone close and sing one note steadily for 3-4 sec.');
+      micLoop();
+    }).catch(function(e){setText('micOut','Mic blocked: '+e.message+'. Allow mic in browser settings.');});
+  });
+}
+function stopMic(){
+  cancelAnimationFrame(micRAF);micRAF=null;
+  if(scriptNode){try{scriptNode.disconnect();}catch(e){}scriptNode=null;}
+  if(micStream)micStream.getTracks().forEach(function(t){t.stop();});
+  micStream=null;analyser=null;micBuf=null;pitchTrail=[];lastGoodFreq=0;lastLevel=0;
+  if(S._droneWasOn){S._droneWasOn=false;startDrone();}
+  setText('micOut','Mic stopped. Drone resumed.');
+  document.getElementById('levelFill').style.width='0%';
+}
+function micLoop(){
+  if(!analyser)return;
+  var buf=micBuf?micBuf:new Float32Array(analyser.fftSize);
+  if(!micBuf)analyser.getFloatTimeDomainData(buf);
+  var freq=autoCorrelate(buf,(micCtx||audioCtx).sampleRate);
+  var pct=Math.min(100,lastLevel*8);
+  document.getElementById('levelFill').style.width=pct+'%';
+  if(freq>60&&freq<1500){
+    lastGoodFreq=freq;
+    var pc=((Math.round(12*Math.log2(freq/tonic()))%12)+12)%12;
+    pitchTrail.push(pc);if(pitchTrail.length>60)pitchTrail.shift();
+  }
+  var lines=[];
+  lines.push('Level: '+lastLevel.toFixed(1)+' (need >2)');
+  if(lastGoodFreq>0){
+    lines.push('Detected: ~'+lastGoodFreq.toFixed(1)+' Hz');
+    var ranked=matchRagas(pitchTrail);
+    if(ranked.length&&ranked[0].score>0){
+      lines.push('Likely ragas:');
+      ranked.forEach(function(r,i){lines.push((i+1)+'. #'+r.num+' '+r.name);});
+    }else{lines.push('Collecting more notes...');}
+  }else{lines.push('No pitch yet. Sing a steady note close to phone.');}
+  setText('micOut',lines.join('\n'));
+  micRAF=requestAnimationFrame(micLoop);
+}
+
+/* ── Build UI ── */
+function buildSeg(id,items,getV,setV){
+  var el=document.getElementById(id);el.innerHTML='';
+  items.forEach(function(it){
+    var b=document.createElement('button');b.textContent=it.label;
+    if(it.key===getV())b.classList.add('on');
+    var fn=function(){setV(it.key);Array.from(el.children).forEach(function(x){x.classList.remove('on');});b.classList.add('on');};
+    b.addEventListener('click',fn);b.addEventListener('touchend',function(e){e.preventDefault();fn();},{passive:false});
+    el.appendChild(b);
+  });
+}
+function buildPitchGrid(){
+  var g=document.getElementById('pitchGrid');g.innerHTML='';
+  PITCHES.forEach(function(p,i){
+    var b=document.createElement('button');b.className='pk'+(i===S.tonic?' on':'');
+    b.innerHTML='<span class="sw">'+p.swara+'</span><span class="nt">'+p.note+'</span>';
+    var fn=function(){ensureAudio().then(function(){S.tonic=i;updateUI();if(S.drone&&tanpuraBuf){stopTanpuraSample();startTanpuraSample();}});};
+    b.addEventListener('click',fn);b.addEventListener('touchend',function(e){e.preventDefault();fn();},{passive:false});
+    g.appendChild(b);
+  });
+}
+function buildRagaSelect(){
+  var s=document.getElementById('ragaSelect');s.innerHTML='';
+  RAGAS.forEach(function(r,i){
+    var o=document.createElement('option');o.value=i;o.textContent='#'+r.num+' '+r.name;s.appendChild(o);
+  });
+  s.value=String(S.raga);
+  s.onchange=function(){S.raga=Number(s.value);updateUI();};
+}
+function buildPiano(){
+  var p=document.getElementById('piano');p.innerHTML='';
+  var names=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B','Sa2'];
+  for(var i=0;i<13;i++){(function(semi){
+    var k=document.createElement('button');
+    var isHighSa=(semi===12);
+    k.className='key'+(semi===0||isHighSa?' sa':'');
+    k.dataset.semi=semi;k.textContent=names[semi];
+    var fn=function(){
+      ensureAudio().then(function(){
+        var oct=isHighSa?2:1;
+        var sf=isHighSa?0:semi;
+        var freq=tonic()*oct*Math.pow(2,((sf-S.tonic+12)%12)/12);
+        leadNote(freq,0.65);
+      });
+    };
+    k.addEventListener('click',fn);k.addEventListener('touchend',function(e){e.preventDefault();fn();},{passive:false});
+    p.appendChild(k);
+  })(i);}
+}
+function updatePiano(){
+  var set=new Set((RAGAS[S.raga].keys||[]));
+  document.querySelectorAll('.key').forEach(function(k){
+    var s=Number(k.dataset.semi);
+    if(s===12||s===0){return;}
+    k.classList.toggle('lit',set.has(s));
+  });
+}
+function updateUI(){
+  var p=PITCHES[S.tonic];
+  setText('pitchLabel',p.note+' - '+p.swara);
+  setText('pitchHz',tonic().toFixed(2)+' Hz');
+  setText('volB',S.vol+'%');setText('tuneB',(S.tune>=0?'+':'')+S.tune+'c');setText('tempoB',S.tempo+' bpm');
+  document.getElementById('volume').value=S.vol;
+  document.getElementById('fineTune').value=S.tune;
+  document.getElementById('tempo').value=S.tempo;
+  document.querySelectorAll('.pk').forEach(function(b,i){b.classList.toggle('on',i===S.tonic);});
+  document.getElementById('ragaSelect').value=String(S.raga);
+  setText('ragaAro',RAGAS[S.raga].aro);setText('ragaAva',RAGAS[S.raga].ava);
+  setText('droneLabel',S.drone?'Drone playing':'Drone off');
+  var pulse=document.getElementById('pulse');if(pulse)pulse.classList.toggle('on',S.drone);
+  if(masterGain&&audioCtx)masterGain.gain.setTargetAtTime(S.vol/100,audioCtx.currentTime,0.05);
+  if(tanpuraGain&&audioCtx)tanpuraGain.gain.setTargetAtTime(S.vol/100,audioCtx.currentTime,0.05);
+  updatePiano();
+}
+function buildSegs(){
+  buildSeg('secSeg',[{key:'pa',label:'Pa'},{key:'ma',label:'Ma'},{key:'sa',label:'High Sa'}],function(){return S.sec;},function(v){S.sec=v;if(S.drone&&!tanpuraBuf){clearInterval(pluckTimer);pluckTimer=null;var ms=synthCycle();pluckTimer=setInterval(synthCycle,Math.max(1000,ms*0.88));}});
+  buildSeg('terSeg',[{key:'off',label:'Off'},{key:'ga',label:'Ga'},{key:'ma',label:'Ma'},{key:'pa',label:'Pa'},{key:'ni',label:'Ni'},{key:'sa-high',label:'Sa2'}],function(){return S.ter;},function(v){S.ter=v;});
+  buildSeg('modeSeg',[{key:'hum',label:'Hum'},{key:'play',label:'Instrument'}],function(){return S.mode;},function(v){S.mode=v;});
+  buildSeg('instrSeg',[{key:'tanpura',label:'Tanpura'},{key:'flute',label:'Flute'},{key:'veena',label:'Veena'},{key:'violin',label:'Violin'},{key:'guitar',label:'Guitar'},{key:'sitar',label:'Sitar'},{key:'sarod',label:'Sarod'},{key:'harmonium',label:'Harmonium'}],function(){return S.instr;},function(v){S.instr=v;});
+}
+function safeTap(id,fn){
+  var el=document.getElementById(id);if(!el)return;
+  el.addEventListener('click',fn);
+  el.addEventListener('touchend',function(e){e.preventDefault();fn();},{passive:false});
+}
+function wire(){
+  document.getElementById('volume').addEventListener('input',function(e){S.vol=Number(e.target.value);updateUI();});
+  document.getElementById('fineTune').addEventListener('input',function(e){S.tune=Number(e.target.value);updateUI();if(S.drone&&tanpuraBuf){stopTanpuraSample();startTanpuraSample();}});
+  document.getElementById('tempo').addEventListener('input',function(e){S.tempo=Number(e.target.value);updateUI();});
+  safeTap('startBtn',function(){ensureAudio().then(function(){if(!S.drone)startDrone();});});
+  safeTap('stopBtn',function(){stopDrone();stopRagaPlayback();});
+  safeTap('resetBtn',function(){stopDrone();stopRagaPlayback();stopMic();S.tonic=0;S.vol=70;S.tune=0;S.tempo=72;S.sec='pa';S.ter='off';S.mode='hum';S.instr='tanpura';S.raga=0;buildSegs();buildPitchGrid();buildRagaSelect();updateUI();});
+  safeTap('playAro',function(){ensureAudio().then(function(){playRaga('up');});});
+  safeTap('playAva',function(){ensureAudio().then(function(){playRaga('down');});});
+  safeTap('stopRaga',function(){stopRagaPlayback();});
+  safeTap('micStart',function(){startMic();});
+  safeTap('micStop',function(){stopMic();});
+  // theme dots
+  document.querySelectorAll('.tdot').forEach(function(dot){
+    var fn=function(){
+      var t=dot.dataset.theme;
+      document.documentElement.setAttribute('data-theme',t==='default'?'':t);
+      document.querySelectorAll('.tdot').forEach(function(d){d.classList.remove('on');});
+      dot.classList.add('on');
+    };
+    dot.addEventListener('click',fn);dot.addEventListener('touchend',function(e){e.preventDefault();fn();},{passive:false});
+  });
+  safeTap('themeBtn',function(){
+    S.themeIdx=(S.themeIdx+1)%THEMES.length;
+    var t=THEMES[S.themeIdx];
+    document.documentElement.setAttribute('data-theme',t==='default'?'':t);
+    document.querySelectorAll('.tdot').forEach(function(d){d.classList.toggle('on',d.dataset.theme===t);});
+  });
+}
+document.addEventListener('DOMContentLoaded',function(){buildSegs();buildPitchGrid();buildRagaSelect();buildPiano();wire();updateUI();});
+})();
+</script>
+</body>
+</html>
