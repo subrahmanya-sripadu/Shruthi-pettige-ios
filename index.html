@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang='en' data-theme='light'>
+<head>
+<meta charset='UTF-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1, viewport-fit=cover'>
+<meta name='theme-color' content='#01696f'>
+<title>Shruti Box + Raga Lab (iOS)</title>
+<style>
+:root,[data-theme=light]{--bg:#f7f6f2;--surf:#fffdf9;--surf2:#f1efe9;--bdr:#d7d2c7;--tx:#27231f;--txm:#6d6a63;--pri:#01696f;--pris:#d2e7e5;--gold:#bf9223;--r:16px;--rf:999px;--sh:0 12px 28px rgba(0,0,0,.10);--fn:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif}
+[data-theme=dark]{--bg:#161513;--surf:#201f1c;--surf2:#2a2824;--bdr:#403c35;--tx:#f2ede4;--txm:#ada8a0;--pri:#5aa2ad;--pris:#20383b;--gold:#ddb04d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font-family:var(--fn)}button,input,select{font:inherit}button{cursor:pointer;border:none;-webkit-tap-highlight-color:transparent}
+.app{max-width:980px;margin:0 auto;padding:14px}.top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.title h1{font-size:1.25rem;margin:0}.title p{font-size:.82rem;color:var(--txm);margin:2px 0 0}.icon{min-width:42px;min-height:42px;border-radius:var(--rf);background:var(--surf);border:1px solid var(--bdr)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.panel{background:var(--surf);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;box-shadow:var(--sh)}.ph{font-size:1.05rem;font-weight:700;margin:0 0 4px}.ps{font-size:.8rem;color:var(--txm);margin:0 0 12px;line-height:1.5}
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}.label{font-size:.76rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--txm)}.badge{padding:3px 10px;border-radius:var(--rf);background:var(--surf2);border:1px solid var(--bdr);font-size:.78rem;font-weight:700}
+input[type=range]{width:100%;accent-color:var(--pri);min-height:32px}.seg{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.seg button{padding:8px 12px;border-radius:var(--rf);background:var(--surf2);border:1px solid var(--bdr);font-size:.82rem;min-height:38px}.seg button.on{background:var(--pri);border-color:var(--pri);color:#fff}
+.transport{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.btnp,.btns{min-height:46px;border-radius:14px;font-weight:700}.btnp{background:var(--pri);color:#fff}.btns{background:var(--surf2);border:1px solid var(--bdr);color:var(--tx)}
+.helper{font-size:.78rem;color:var(--txm);line-height:1.5;margin-top:6px;min-height:34px}.pitch-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:12px}.pk{padding:10px 8px;border-radius:12px;background:var(--surf2);border:1px solid var(--bdr);text-align:left}.pk .sw{display:block;font-weight:700}.pk .nt{display:block;color:var(--txm);font-size:.73rem}.pk.on{background:var(--pris);border-color:var(--pri)}
+select{width:100%;min-height:44px;border-radius:12px;padding:0 12px;background:var(--surf2);border:1px solid var(--bdr);color:var(--tx)}.boxes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.box{padding:10px;border-radius:12px;background:var(--surf2);border:1px solid var(--bdr)}.boxv{font-size:.82rem;font-weight:700;line-height:1.5;margin-top:4px}
+.piano{display:flex;height:90px;border-radius:14px;overflow:hidden;border:1px solid var(--bdr);margin-top:10px;touch-action:manipulation}.key{flex:1;background:#fbfaf6;border-right:1px solid #e3ddd3;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;font-size:9px;color:#999}.key.lit{background:var(--pri);color:#fff}.key.sa{background:var(--gold);color:#fff}
+.mic{margin-top:14px;padding:12px;border-radius:14px;background:var(--surf2);border:1px solid var(--bdr)}.micout{font-size:.8rem;color:var(--txm);line-height:1.5;min-height:70px;margin-top:8px;white-space:pre-wrap}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}@media(max-width:520px){.app{padding:10px}.pitch-grid{grid-template-columns:repeat(3,1fr)}.transport{grid-template-columns:1fr}.panel{padding:14px}.title h1{font-size:1.1rem}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="top">
+  <div class="title"><h1>Shruti Box + Raga Lab</h1><p>iOS &amp; Android Chrome ready. Tap Start once to unlock audio.</p></div>
+  <button class="icon" id="themeBtn">&#127763;</button>
+</div>
+<div class="grid">
+<section class="panel">
+  <div class="ph">Shruti / Tanpura</div>
+  <div class="ps">Original tanpura drone with jvari buzz and overlapping notes. Tap Start once to unlock audio on iOS/Android.</div>
+  <div class="row"><span class="label">Tonic</span><span class="badge" id="pitchLabel">C - Sa</span><span class="badge" id="pitchHz">261.63 Hz</span></div>
+  <div class="row"><span class="label">Volume</span><span class="badge" id="volB">70%</span></div>
+  <input type="range" id="volume" min="0" max="100" value="70">
+  <div class="row"><span class="label">Fine tune</span><span class="badge" id="tuneB">0c</span></div>
+  <input type="range" id="fineTune" min="-50" max="50" value="0">
+  <div class="row"><span class="label">Tempo</span><span class="badge" id="tempoB">72 bpm</span></div>
+  <input type="range" id="tempo" min="40" max="160" value="72">
+  <div class="label" style="margin-bottom:4px">Secondary note</div><div class="seg" id="secSeg"></div>
+  <div class="label" style="margin-bottom:4px">Tertiary note</div><div class="seg" id="terSeg"></div>
+  <div class="transport">
+    <button class="btnp" id="startBtn">&#9654; Start</button>
+    <button class="btns" id="stopBtn">&#9646;&#9646; Stop</button>
+    <button class="btns" id="resetBtn">Reset</button>
+  </div>
+  <div class="helper" id="helper">Tap Start to unlock audio on iOS/Android, then pick your tonic.</div>
+  <div class="pitch-grid" id="pitchGrid"></div>
+</section>
+<section class="panel">
+  <div class="ph">Raga Practice</div>
+  <div class="ps">Pick a raga, play arohanam or avarohanam, and use the live mic to identify ragas while singing.</div>
+  <select id="ragaSelect"></select>
+  <div class="boxes">
+    <div class="box"><div class="label">Arohanam</div><div class="boxv" id="ragaAro"></div></div>
+    <div class="box"><div class="label">Avarohanam</div><div class="boxv" id="ragaAva"></div></div>
+  </div>
+  <div class="label" style="margin-bottom:4px">Practice mode</div><div class="seg" id="modeSeg"></div>
+  <div class="label" style="margin-bottom:4px">Instrument</div><div class="seg" id="instrSeg"></div>
+  <div class="transport">
+    <button class="btnp" id="playAro">Arohanam</button>
+    <button class="btns" id="playAva">Avarohanam</button>
+    <button class="btns" id="stopRaga">Stop</button>
+  </div>
+  <div class="label" style="margin-top:4px">Piano (tap keys)</div>
+  <div class="piano" id="piano"></div>
+  <div class="mic">
+    <div class="label">Live Raga Identifier</div>
+    <div class="seg" style="margin-top:8px;margin-bottom:0">
+      <button class="btnp" id="micStart" style="border-radius:999px;min-height:38px;padding:0 14px;font-size:.82rem">&#127908; Start mic</button>
+      <button class="btns" id="micStop" style="border-radius:999px;min-height:38px;padding:0 14px;font-size:.82rem">Stop mic</button>
+    </div>
+    <div class="micout" id="micOut">Tap Start mic and sing a swara or phrase for 3-4 seconds. Requires HTTPS.</div>
+  </div>
+</section>
+</div>
+</div>
+<script>
+(function(){
+var RAGAS=[{"name": "Mohanam", "mela": "HarikAmbhoji (28)", "aro": "S R2 G3 P D2 S", "ava": "S D2 P G3 R2 S", "keys": [0, 2, 4, 7, 9]}, {"name": "Hamsadhwani", "mela": "Dheerashankarabharanam (29)", "aro": "S R2 G3 P N3 S", "ava": "S N3 P G3 R2 S", "keys": [0, 2, 4, 7, 11]}, {"name": "Kalyani", "mela": "Mechakalyani (65)", "aro": "S R2 G3 M2 P D2 N3 S", "ava": "S N3 D2 P M2 G3 R2 S", "keys": [0, 2, 4, 6, 7, 9, 11]}, {"name": "Mayamalavagowla", "mela": "Melakarta (15)", "aro": "S R1 G3 M1 P D1 N3 S", "ava": "S N3 D1 P M1 G3 R1 S", "keys": [0, 1, 4, 5, 7, 8, 11]}, {"name": "Shankarabharanam", "mela": "Melakarta (29)", "aro": "S R2 G3 M1 P D2 N3 S", "ava": "S N3 D2 P M1 G3 R2 S", "keys": [0, 2, 4, 5, 7, 9, 11]}, {"name": "Kharaharapriya", "mela": "Melakarta (22)", "aro": "S R2 G2 M1 P D2 N2 S", "ava": "S N2 D2 P M1 G2 R2 S", "keys": [0, 2, 3, 5, 7, 9, 10]}, {"name": "Todi", "mela": "Hanumatodi (8)", "aro": "S R1 G2 M1 P D1 N2 S", "ava": "S N2 D1 P M1 G2 R1 S", "keys": [0, 1, 3, 5, 7, 8, 10]}, {"name": "Keeravani", "mela": "Melakarta (21)", "aro": "S R2 G2 M1 P D1 N3 S", "ava": "S N3 D1 P M1 G2 R2 S", "keys": [0, 2, 3, 5, 7, 8, 11]}, {"name": "Bhairavi", "mela": "Natabhairavi (20)", "aro": "S R2 G2 M1 P D2 N2 S", "ava": "S N2 D1 P M1 G2 R2 S", "keys": [0, 2, 3, 5, 7, 9, 10]}, {"name": "Hindolam", "mela": "Natabhairavi (20)", "aro": "S G2 M1 D1 N2 S", "ava": "S N2 D1 M1 G2 S", "keys": [0, 3, 5, 8, 10]}, {"name": "Madhyamavati", "mela": "Kharaharapriya (22)", "aro": "S R2 M1 P N2 S", "ava": "S N2 P M1 R2 S", "keys": [0, 2, 5, 7, 10]}, {"name": "Bilahari", "mela": "Shankarabharanam (29)", "aro": "S R2 G3 P D2 S", "ava": "S N3 D2 P M1 G3 R2 S", "keys": [0, 2, 4, 7, 9]}, {"name": "Kambhoji", "mela": "HarikAmbhoji (28)", "aro": "S R2 G3 M1 P D2 S", "ava": "S N2 D2 P M1 G3 R2 S", "keys": [0, 2, 4, 5, 7, 9]}, {"name": "Abhogi", "mela": "Kharaharapriya (22)", "aro": "S R2 G2 M1 D2 S", "ava": "S D2 M1 G2 R2 S", "keys": [0, 2, 3, 5, 9]}, {"name": "Charukesi", "mela": "Melakarta (26)", "aro": "S R2 G3 M1 P D1 N2 S", "ava": "S N2 D1 P M1 G3 R2 S", "keys": [0, 2, 4, 5, 7, 8, 10]}, {"name": "Suddha Saveri", "mela": "Shankarabharanam (29)", "aro": "S R2 M1 P D2 S", "ava": "S D2 P M1 R2 S", "keys": [0, 2, 5, 7, 9]}, {"name": "Pantuvarali", "mela": "Kamavardhini (51)", "aro": "S R1 G3 M2 P D1 N3 S", "ava": "S N3 D1 P M2 G3 R1 S", "keys": [0, 1, 4, 6, 7, 8, 11]}, {"name": "Natabhairavi", "mela": "Melakarta (20)", "aro": "S R2 G2 M1 P D1 N2 S", "ava": "S N2 D1 P M1 G2 R2 S", "keys": [0, 2, 3, 5, 7, 8, 10]}, {"name": "HarikAmbhoji", "mela": "Melakarta (28)", "aro": "S R2 G3 M1 P D2 N2 S", "ava": "S N2 D2 P M1 G3 R2 S", "keys": [0, 2, 4, 5, 7, 9, 10]}, {"name": "Mechakalyani", "mela": "Melakarta (65)", "aro": "S R2 G3 M2 P D2 N3 S", "ava": "S N3 D2 P M2 G3 R2 S", "keys": [0, 2, 4, 6, 7, 9, 11]}, {"name": "Yaman", "mela": "Mechakalyani (65)", "aro": "S R2 G3 M2 P D2 N3 S", "ava": "S N3 D2 P M2 G3 R2 S", "keys": [0, 2, 4, 6, 7, 9, 11]}, {"name": "Brindavana Saranga", "mela": "Kharaharapriya (22)", "aro": "S R2 M1 P N2 S", "ava": "S N2 P M1 R2 G2 R2 S", "keys": [0, 2, 5, 7, 10]}, {"name": "Hamsanandi", "mela": "Gamanashrama (53)", "aro": "S G2 M2 D2 N3 S", "ava": "S N3 D2 M2 G2 S", "keys": [0, 3, 6, 9, 11]}, {"name": "Revati", "mela": "Hanumatodi (8)", "aro": "S R1 M1 P N2 S", "ava": "S N2 P M1 R1 S", "keys": [0, 1, 5, 7, 10]}, {"name": "Bageshri", "mela": "Natabhairavi (20)", "aro": "S G2 M1 D1 N2 S", "ava": "S N2 D1 M1 G2 R2 S", "keys": [0, 3, 5, 8, 10]}];
+var PITCHES=[{note:'C',swara:'Sa',freq:261.63},{note:'C#/Db',swara:'Komal Re',freq:277.18},{note:'D',swara:'Re',freq:293.66},{note:'D#/Eb',swara:'Komal Ga',freq:311.13},{note:'E',swara:'Ga',freq:329.63},{note:'F',swara:'Ma',freq:349.23},{note:'F#/Gb',swara:'Tivra Ma',freq:369.99},{note:'G',swara:'Pa',freq:392},{note:'G#/Ab',swara:'Komal Dha',freq:415.30},{note:'A',swara:'Dha',freq:440},{note:'A#/Bb',swara:'Komal Ni',freq:466.16},{note:'B',swara:'Ni',freq:493.88}];
+var SW={S:1,R1:16/15,R2:9/8,G2:6/5,G3:5/4,M1:4/3,M2:45/32,P:3/2,D1:8/5,D2:5/3,N2:9/5,N3:15/8};
+var S={tonic:0,vol:70,tune:0,tempo:72,sec:'pa',ter:'off',mode:'hum',instr:'tanpura',raga:0,drone:false};
+var audioCtx,masterGain,pluckTimer=null,ragaTimer=null,micStream=null,analyser=null,micRAF=null,pitchTrail=[],scriptNode=null,micBuf=null,micWrite=0,lastGoodFreq=0,lastLevel=0;
+
+function bindUnlock(ctx){
+  var evs=['touchstart','touchend','mousedown','pointerup','click'];
+  function resume(){if(ctx&&ctx.state!=='running')ctx.resume().catch(function(){});}
+  evs.forEach(function(e){document.addEventListener(e,resume,{passive:true,capture:true});});
+}
+function ensureAudio(){
+  if(!audioCtx){
+    audioCtx=new(window.AudioContext||window.webkitAudioContext)();
+    masterGain=audioCtx.createGain();
+    masterGain.gain.value=S.vol/100;
+    masterGain.connect(audioCtx.destination);
+    bindUnlock(audioCtx);
+  }
+  return audioCtx.resume();
+}
+function tonic(){return PITCHES[S.tonic].freq*Math.pow(2,S.tune/1200);}
+function secRatio(){return S.sec==='pa'?3/2:S.sec==='ma'?4/3:2;}
+function terRatio(){return{off:null,ga:5/4,ma:4/3,pa:3/2,ni:15/8,'sa-high':2}[S.ter];}
+function setText(id,txt){var el=document.getElementById(id);if(el)el.textContent=txt;}
+
+function pluck(freq,gain,when,dur){
+  var amps=[1,0.84,0.62,0.45,0.33,0.24,0.17,0.12,0.08,0.055,0.035,0.02];
+  var jawari=0.0036;
+  amps.forEach(function(a,i){
+    var n=i+1;
+    var osc=audioCtx.createOscillator();
+    var g=audioCtx.createGain();
+    var f=audioCtx.createBiquadFilter();
+    var det=(n%2?1:-1)*freq*jawari*(n*0.34);
+    osc.type='sine';osc.frequency.value=freq*n+det;
+    f.type='lowpass';
+    f.frequency.setValueAtTime(freq*(n<3?11:6),when);
+    f.frequency.linearRampToValueAtTime(Math.min(5500,freq*18),when+0.08);
+    f.Q.value=0.95;
+    var pk=gain*a*(1/Math.sqrt(n+1));
+    g.gain.setValueAtTime(0.0001,when);
+    g.gain.exponentialRampToValueAtTime(Math.max(pk,0.00035),when+0.02);
+    g.gain.linearRampToValueAtTime(pk*0.74,when+dur*0.40);
+    g.gain.linearRampToValueAtTime(pk*0.22,when+dur*0.82);
+    g.gain.linearRampToValueAtTime(0.0001,when+dur);
+    osc.connect(f);f.connect(g);g.connect(masterGain);
+    osc.start(when);osc.stop(when+dur+0.08);
+  });
+}
+function fireCycle(){
+  var base=tonic();var notes=[base];
+  var tr=terRatio();if(tr)notes.push(base*tr);
+  notes.push(base*secRatio());notes.push(base*2);
+  var cycle=5.9*(76/S.tempo),overlap=cycle*0.30;
+  var pct=[0,0.22,0.45,0.73];
+  var now=audioCtx.currentTime+0.02;
+  notes.forEach(function(f,i){
+    var st=pct[i]*cycle,en=(pct[i+1]||1)*cycle,dur=(en-st)+overlap;
+    pluck(f,0.22/Math.sqrt(notes.length),now+st,dur);
+  });
+  return cycle*1000;
+}
+function startDrone(){var ms=fireCycle();pluckTimer=setInterval(fireCycle,Math.max(1100,ms*0.86));S.drone=true;updateUI();}
+function stopDrone(){clearInterval(pluckTimer);pluckTimer=null;S.drone=false;updateUI();}
+
+function leadNote(freq,dur){
+  var t=audioCtx.currentTime+0.01;
+  var a=audioCtx.createOscillator(),b=audioCtx.createOscillator();
+  var f=audioCtx.createBiquadFilter(),g=audioCtx.createGain();
+  a.frequency.value=freq;b.frequency.value=freq*2.003;
+  if(S.mode==='hum'){a.type='sine';b.type='triangle';f.type='bandpass';f.frequency.value=780;f.Q.value=3.6;}
+  else if(S.instr==='flute'){a.type='sine';b.type='sine';f.type='lowpass';f.frequency.value=1800;f.Q.value=0.8;}
+  else if(S.instr==='veena'){a.type='triangle';b.type='sine';f.type='lowpass';f.frequency.value=2200;f.Q.value=1.2;}
+  else if(S.instr==='violin'){a.type='sawtooth';b.type='triangle';f.type='lowpass';f.frequency.value=1600;f.Q.value=1.0;}
+  else if(S.instr==='harmonium'){a.type='sawtooth';b.type='square';f.type='bandpass';f.frequency.value=1000;f.Q.value=0.9;}
+  else{a.type='triangle';b.type='triangle';f.type='bandpass';f.frequency.value=Math.min(freq*4,2200);f.Q.value=0.85;}
+  g.gain.setValueAtTime(0.0001,t);
+  g.gain.exponentialRampToValueAtTime(0.09,t+0.03);
+  g.gain.linearRampToValueAtTime(0.07,t+dur*0.68);
+  g.gain.linearRampToValueAtTime(0.0001,t+dur);
+  a.connect(f);b.connect(f);f.connect(g);g.connect(masterGain);
+  a.start(t);b.start(t);a.stop(t+dur+0.05);b.stop(t+dur+0.05);
+}
+function playRaga(dir){
+  clearInterval(ragaTimer);if(!audioCtx)return;
+  var r=RAGAS[S.raga];
+  var seq=(dir==='up'?r.aro:('S '+r.ava));
+  var tokens=seq.split(/\s+/).filter(Boolean);
+  var idx=0;var stepMs=Math.max(750,3900/S.tempo);
+  function tick(){
+    var tok=tokens[idx];var ratio=SW[tok]||1;
+    var oct=(tok==='S'&&idx===tokens.length-1&&dir==='up')?2:1;
+    leadNote(tonic()*ratio*oct,Math.min(0.50,stepMs/1000*0.58));
+    idx++;if(idx>=tokens.length){clearInterval(ragaTimer);ragaTimer=null;}
+  }
+  tick();ragaTimer=setInterval(tick,stepMs);
+}
+function stopRaga(){clearInterval(ragaTimer);ragaTimer=null;}
+
+/* iOS mic fix: use separate AudioContext for mic to avoid ducking */
+var micCtx=null;
+function autoCorrelate(buf,sr){
+  var size=buf.length,rms=0;
+  for(var i=0;i<size;i++)rms+=buf[i]*buf[i];
+  rms=Math.sqrt(rms/size);if(rms<0.008)return -1;
+  var r1=0,r2=size-1;
+  while(r1<size/2&&Math.abs(buf[r1])<0.15)r1++;
+  while(r2>size/2&&Math.abs(buf[r2])<0.15)r2--;
+  buf=buf.slice(r1,r2);size=buf.length;
+  var c=new Array(size).fill(0);
+  for(var i=0;i<size;i++)for(var j=0;j<size-i;j++)c[i]+=buf[j]*buf[j+i];
+  var d=0;while(c[d]>c[d+1])d++;
+  var maxVal=-1,maxPos=-1;
+  for(var i=d;i<size;i++)if(c[i]>maxVal){maxVal=c[i];maxPos=i;}
+  var T0=maxPos;
+  if(T0>1&&T0<size-1){
+    var x1=c[T0-1],x2=c[T0],x3=c[T0+1];
+    var aa=(x1+x3-2*x2)/2,bb=(x3-x1)/2;
+    if(aa)T0=T0-bb/(2*aa);
+  }
+  return sr/T0;
+}
+function matchRagas(trail){
+  if(!trail.length)return[];
+  var counts={};
+  trail.forEach(function(pc){counts[pc]=(counts[pc]||0)+1;});
+  return RAGAS.map(function(r){
+    var keys=r.keys||[];var hit=0,miss=0;
+    Object.keys(counts).forEach(function(k){
+      var pc=Number(k);
+      if(keys.indexOf(pc)>=0)hit+=counts[k];else miss+=counts[k];
+    });
+    return{name:r.name,mela:r.mela,score:hit-miss*0.5};
+  }).sort(function(a,b){return b.score-a.score;}).slice(0,3);
+}
+function micLoop(){
+  if(!analyser)return;
+  var buf = micBuf ? micBuf : new Float32Array(analyser.fftSize);
+  if(!micBuf) analyser.getFloatTimeDomainData(buf);
+  var freq=autoCorrelate(buf,(micCtx||audioCtx).sampleRate);
+  var lines=[];
+  lines.push('Input level: '+(lastLevel*1000).toFixed(1));
+  if(freq>60&&freq<1500){
+    lastGoodFreq=freq;
+    var pc=((Math.round(12*Math.log2(freq/tonic()))%12)+12)%12;
+    pitchTrail.push(pc);if(pitchTrail.length>50)pitchTrail.shift();
+  }
+  if(lastGoodFreq>0){
+    lines.push('Detected: ~'+lastGoodFreq.toFixed(1)+' Hz');
+    var ranked=matchRagas(pitchTrail);
+    if(ranked.length&&ranked[0].score>0){
+      lines.push('Likely ragas:');
+      ranked.forEach(function(r,i){lines.push((i+1)+'. '+r.name+' ('+r.mela+')');});
+    } else {
+      lines.push('Collecting more notes...');
+    }
+  } else {
+    lines.push('No stable pitch yet. Hold one note closer to the phone.');
+  }
+  setText('micOut',lines.join('\n'));
+  micRAF=requestAnimationFrame(micLoop);
+}
+function startMic(){
+  try{ micCtx=new(window.AudioContext||window.webkitAudioContext)(); }catch(e){ micCtx=audioCtx; }
+  micCtx.resume().then(function(){
+    navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false,autoGainControl:false,channelCount:1}})
+    .then(function(stream){
+      micStream=stream;
+      var src=micCtx.createMediaStreamSource(stream);
+      analyser=micCtx.createAnalyser();
+      analyser.fftSize=4096;
+      analyser.smoothingTimeConstant=0;
+      analyser.minDecibels=-100;
+      analyser.maxDecibels=-10;
+      src.connect(analyser);
+      if(micCtx.createScriptProcessor){
+        scriptNode=micCtx.createScriptProcessor(4096,1,1);
+        micBuf=new Float32Array(4096);
+        micWrite=0;
+        scriptNode.onaudioprocess=function(ev){
+          var d=ev.inputBuffer.getChannelData(0);
+          var n=Math.min(d.length,micBuf.length);
+          micBuf.set(d.subarray(0,n));
+          var sum=0;
+          for(var i=0;i<n;i++) sum+=d[i]*d[i];
+          lastLevel=Math.sqrt(sum/n);
+        };
+        src.connect(scriptNode);
+        scriptNode.connect(micCtx.destination);
+      }
+      pitchTrail=[];
+      lastGoodFreq=0;
+      S._droneWasOn=!!S.drone;
+      if(S.drone){stopDrone();}
+      setText('micOut','Drone paused. Hold one note close to phone for 3-4 sec.');
+      micLoop();
+    })
+    .catch(function(e){
+      setText('micOut','Mic blocked: '+e.message+'. Allow microphone in browser settings and reload.');
+    });
+  });
+}
+function stopMic(){
+  cancelAnimationFrame(micRAF);micRAF=null;
+  if(scriptNode){ try{scriptNode.disconnect();}catch(e){} scriptNode=null; }
+  if(micStream)micStream.getTracks().forEach(function(t){t.stop();});
+  micStream=null;analyser=null;pitchTrail=[];micBuf=null;lastGoodFreq=0;lastLevel=0;
+  if(S._droneWasOn){ensureAudio().then(function(){startDrone();});S._droneWasOn=false;}
+  setText('micOut','Mic stopped. Drone resumed.');
+}
+
+function buildSeg(id,items,getVal,setVal){
+  var el=document.getElementById(id);el.innerHTML='';
+  items.forEach(function(it){
+    var b=document.createElement('button');
+    b.textContent=it.label;
+    if(it.key===getVal())b.classList.add('on');
+    var pick=function(){setVal(it.key);Array.from(el.children).forEach(function(x){x.classList.remove('on');});b.classList.add('on');};
+    b.addEventListener('click',pick);
+    b.addEventListener('touchend',function(e){e.preventDefault();pick();},{passive:false});
+    el.appendChild(b);
+  });
+}
+function buildPitchGrid(){
+  var g=document.getElementById('pitchGrid');g.innerHTML='';
+  PITCHES.forEach(function(p,i){
+    var b=document.createElement('button');
+    b.className='pk'+(i===S.tonic?' on':'');
+    b.innerHTML='<span class="sw">'+p.swara+'</span><span class="nt">'+p.note+'</span>';
+    var fn=function(){ensureAudio().then(function(){S.tonic=i;updateUI();});};
+    b.addEventListener('click',fn);
+    b.addEventListener('touchend',function(e){e.preventDefault();fn();},{passive:false});
+    g.appendChild(b);
+  });
+}
+function buildRagaSelect(){
+  var s=document.getElementById('ragaSelect');s.innerHTML='';
+  RAGAS.forEach(function(r,i){
+    var o=document.createElement('option');o.value=i;o.textContent=r.name+' -- '+r.mela;s.appendChild(o);
+  });
+  s.value=String(S.raga);
+  s.onchange=function(){S.raga=Number(s.value);updateUI();};
+}
+function buildPiano(){
+  var p=document.getElementById('piano');p.innerHTML='';
+  var names=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+  for(var i=0;i<13;i++){
+    (function(semi){
+      var k=document.createElement('button');
+      var isHighSa=(semi===12);
+      k.className='key'+(semi===0?' sa':(isHighSa?' sa':''));
+      k.dataset.semi=semi;k.textContent=isHighSa?'Sa2':names[semi];
+      var fn=function(){
+        ensureAudio().then(function(){
+          var octMult=(semi===12)?2:1;
+          var semiFr=(semi===12)?0:semi;
+          var freq=tonic()*octMult*Math.pow(2,((semiFr-S.tonic+12)%12)/12);
+          leadNote(freq,0.60);
+        });
+      };
+      k.addEventListener('click',fn);
+      k.addEventListener('touchend',function(e){e.preventDefault();fn();},{passive:false});
+      p.appendChild(k);
+    })(i);
+  }
+}
+function updatePiano(){
+  var set=new Set((RAGAS[S.raga].keys||[]));
+  document.querySelectorAll('.key').forEach(function(k){
+    var s=Number(k.dataset.semi);
+    if(s===12){k.classList.remove('lit');return;}
+    k.classList.toggle('lit',set.has(s)&&s!==0);
+  });
+}
+function updateUI(){
+  var p=PITCHES[S.tonic],f=tonic();
+  setText('pitchLabel',p.note+' - '+p.swara);
+  setText('pitchHz',f.toFixed(2)+' Hz');
+  setText('volB',S.vol+'%');
+  setText('tuneB',(S.tune>0?'+':'')+S.tune+'c');
+  setText('tempoB',S.tempo+' bpm');
+  document.getElementById('volume').value=S.vol;
+  document.getElementById('fineTune').value=S.tune;
+  document.getElementById('tempo').value=S.tempo;
+  document.querySelectorAll('.pk').forEach(function(b,i){b.classList.toggle('on',i===S.tonic);});
+  document.getElementById('ragaSelect').value=String(S.raga);
+  setText('ragaAro',RAGAS[S.raga].aro);
+  setText('ragaAva',RAGAS[S.raga].ava);
+  setText('helper',S.drone?'Drone running. Mobile audio is unlocked.':'Tap Start to unlock audio and begin the drone.');
+  if(masterGain&&audioCtx)masterGain.gain.setTargetAtTime(S.vol/100,audioCtx.currentTime,0.05);
+  updatePiano();
+}
+function buildSegs(){
+  buildSeg('secSeg',[{key:'pa',label:'Pa'},{key:'ma',label:'Ma'},{key:'sa',label:'Sa (oct)'}],function(){return S.sec;},function(v){S.sec=v;});
+  buildSeg('terSeg',[{key:'off',label:'Off'},{key:'ga',label:'Ga'},{key:'ma',label:'Ma'},{key:'pa',label:'Pa'},{key:'ni',label:'Ni'},{key:'sa-high',label:'Higher Sa'}],function(){return S.ter;},function(v){S.ter=v;});
+  buildSeg('modeSeg',[{key:'hum',label:'Hum'},{key:'play',label:'Play notes'}],function(){return S.mode;},function(v){S.mode=v;});
+  buildSeg('instrSeg',[{key:'tanpura',label:'Tanpura'},{key:'flute',label:'Flute'},{key:'veena',label:'Veena'},{key:'violin',label:'Violin'},{key:'harmonium',label:'Harmonium'}],function(){return S.instr;},function(v){S.instr=v;});
+}
+function safeTap(id,fn){
+  var el=document.getElementById(id);
+  el.addEventListener('click',fn);
+  el.addEventListener('touchend',function(e){e.preventDefault();fn();},{passive:false});
+}
+function wire(){
+  document.getElementById('volume').addEventListener('input',function(e){S.vol=Number(e.target.value);updateUI();});
+  document.getElementById('fineTune').addEventListener('input',function(e){S.tune=Number(e.target.value);updateUI();if(S.drone){stopDrone();startDrone();}});
+  document.getElementById('tempo').addEventListener('input',function(e){S.tempo=Number(e.target.value);updateUI();if(S.drone){stopDrone();startDrone();}});
+  safeTap('startBtn',function(){ensureAudio().then(function(){if(!S.drone)startDrone();});});
+  safeTap('stopBtn',function(){stopDrone();stopRaga();});
+  safeTap('resetBtn',function(){stopDrone();stopRaga();stopMic();S.tonic=0;S.vol=70;S.tune=0;S.tempo=72;S.sec='pa';S.ter='off';S.mode='hum';S.instr='tanpura';S.raga=0;buildSegs();buildPitchGrid();buildRagaSelect();updateUI();});
+  safeTap('playAro',function(){ensureAudio().then(function(){playRaga('up');});});
+  safeTap('playAva',function(){ensureAudio().then(function(){playRaga('down');});});
+  safeTap('stopRaga',function(){stopRaga();});
+  safeTap('micStart',function(){startMic();});
+  safeTap('micStop',function(){stopMic();});
+  safeTap('themeBtn',function(){var cur=document.documentElement.getAttribute('data-theme');document.documentElement.setAttribute('data-theme',cur==='light'?'dark':'light');});
+}
+document.addEventListener('DOMContentLoaded',function(){buildSegs();buildPitchGrid();buildRagaSelect();buildPiano();wire();updateUI();});
+})();
+</script>
+</body>
+</html>
